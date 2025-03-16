@@ -1,50 +1,56 @@
-# tfmcp: Terraform Model Context Protocol Tool
+# mcedit: Model Context Protocol File Editor
 
 *⚠️  This project is experimental. Features may change without notice. Use with caution! ⚠️*
 
-tfmcp is a command-line tool that helps you interact with Terraform via the Model Context Protocol (MCP). It allows LLMs to manage and operate your Terraform environments, including:
+mcedit is a powerful command-line tool that enables AI assistants to edit files and analyze projects through the Model Context Protocol (MCP). It provides a secure bridge between AI models and your local filesystem.
 
 ## 🎮 Demo
 
-See tfmcp in action with Claude Desktop:
+See mcedit in action with Claude Desktop:
 
-![tfmcp Demo with Claude Desktop](.github/images/tfmcp-demo.gif)
+![mcedit Demo with Claude Desktop](.github/images/mcedit-demo.gif)
 
-- Reading Terraform configuration files
-- Analyzing Terraform plan outputs
-- Applying Terraform configurations
-- Managing Terraform state
-- Creating and modifying Terraform configurations
+- Reading and writing any text file
+- Analyzing project structures
+- Searching and modifying file content
+- Creating and managing files and directories
+- Applying suggested edits from AI models
 
 ## 🎉 Latest Release
 
-The first stable release of tfmcp (v0.1.1) is now available on Crates.io! You can easily install it using Cargo:
+The first stable release of mcedit (v0.1.1) is now available on Crates.io! You can easily install it using Cargo:
 
 ```bash
-cargo install tfmcp
+cargo install mcedit
 ```
 
 ## Features
 
-- 🚀 **Terraform Integration**  
-  Deeply integrates with the Terraform CLI to analyze and execute operations.
+- 📝 **Universal File Editing**
+  Works with any text-based files in any programming language or format.
 
-- 📄 **MCP Server Capabilities**  
-  Runs as a Model Context Protocol server, allowing AI assistants to access and manage Terraform.
+- 📄 **MCP Server Capabilities**
+  Runs as a Model Context Protocol server, allowing AI assistants to safely access and modify your files.
 
-- ⚡️ **Blazing Fast**  
+- 🔍 **Project Analysis**
+  Analyzes project structure to provide AI assistants with better context for suggestions.
+
+- ⚡️ **Blazing Fast**
   High-speed processing powered by the Rust ecosystem.
 
-- 🛠️ **Automatic Setup**  
-  Automatically creates sample Terraform projects when needed, ensuring smooth operation even for new users.
+- 🔄 **Diff Generation**
+  Creates and applies diffs to visualize and control changes.
+
+- 🛡️ **Built-in Safety**
+  Automatic backups before modifications and strict path validation for security.
 
 ## Installation
 
 ### From Source
 ```bash
 # Clone the repository
-git clone https://github.com/nwiizo/tfmcp
-cd tfmcp
+git clone https://github.com/yourusername/mcedit
+cd mcedit
 
 # Build and install
 cargo install --path .
@@ -52,98 +58,117 @@ cargo install --path .
 
 ### From Crates.io
 ```bash
-cargo install tfmcp
+cargo install mcedit
 ```
 
 ## Requirements
 
 - Rust (edition 2021)
-- Terraform CLI installed and available in PATH
-- Claude Desktop (for AI assistant integration)
+- Claude Desktop or any MCP-compatible AI assistant
 
-## Usage
+# Zed File Context Server
 
-```bash
-$ tfmcp --help
-✨ A CLI tool to manage Terraform configurations and operate Terraform through the Model Context Protocol (MCP).
+This extension provides a Model Context Server for file operations, for use with the Zed AI assistant.
 
-Usage: tfmcp [OPTIONS] [COMMAND]
+It adds several slash commands to the Assistant Panel to help you work with files and analyze projects.
 
-Commands:
-  mcp       Launch tfmcp as an MCP server
-  analyze   Analyze Terraform configurations
-  help      Print this message or the help of the given subcommand(s)
+## Configuration
 
-Options:
-  -c, --config <PATH>    Path to the configuration file
-  -d, --dir <PATH>       Terraform project directory
-  -V, --version          Print version
-  -h, --help             Print help
-```
-
-### Integrating with Claude Desktop
-
-To use tfmcp with Claude Desktop:
-
-1. If you haven't already, install tfmcp:
-   ```bash
-   cargo install tfmcp
-   ```
-
-2. Find the path to your installed tfmcp executable:
-   ```bash
-   which tfmcp
-   ```
-
-3. Add the following configuration to `~/Library/Application\ Support/Claude/claude_desktop_config.json`:
+To use the extension, you can optionally set a project directory in your Zed `settings.json`:
 
 ```json
 {
-  "mcpServers": {
-    "tfmcp": {
-      "command": "/path/to/your/tfmcp",  // Replace with the actual path from step 2
-      "args": ["mcp"],
-      "env": {
-        "HOME": "/Users/yourusername",  // Replace with your username
-        "PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
-        "TERRAFORM_DIR": "/path/to/your/terraform/project"  // Optional: specify your Terraform project
+  "context_servers": {
+    "file-context-server": {
+      "settings": {
+        "project_directory": "/path/to/your/project"
       }
     }
   }
 }
 ```
 
-4. Restart Claude Desktop and enable the tfmcp tool.
+If no project directory is specified, the current working directory will be used.
 
-5. tfmcp will automatically create a sample Terraform project in `~/terraform` if one doesn't exist, ensuring Claude can start working with Terraform right away. The sample project is based on the examples included in the `example/demo` directory of this repository.
+## Usage
+
+```bash
+$ mcedit --help
+✨ A CLI tool for smart file editing with AI assistance through the Model Context Protocol (MCP).
+
+Usage: mcedit [OPTIONS] [COMMAND]
+
+Commands:
+  mcp       Launch mcedit as an MCP server
+  edit      Edit a file with the given content
+  list      List files in the project
+  analyze   Analyze the project structure
+  search    Search for text in project files
+  help      Print this message or the help of the given subcommand(s)
+
+Options:
+  -c, --config <PATH>    Path to the configuration file
+  -d, --dir <PATH>       Project directory to work with
+  -V, --version          Print version
+  -h, --help             Print help
+```
+
+### Integrating with Claude Desktop
+
+To use mcedit with Claude Desktop:
+
+1. If you haven't already, install mcedit:
+```bash
+cargo install mcedit
+```
+
+2. Find the path to your installed mcedit executable:
+```bash
+which mcedit
+```
+
+3. Add the following configuration to `~/Library/Application\ Support/Claude/claude_desktop_config.json`:
+
+```json
+{
+    "mcpServers": {
+        "mcedit": {
+            "command": "/path/to/your/mcedit",  // Replace with the actual path from step 2
+            "args": ["mcp"],
+            "env": {
+                "HOME": "/Users/yourusername",  // Replace with your username
+                "PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+                "PROJECT_DIR": "/path/to/your/project"  // Optional: specify your project directory
+            }
+        }
+    }
+}
+```
+
+4. Restart Claude Desktop and enable the mcedit tool.
+
+5. mcedit will automatically create a sample README.md file in `~/project` if no project exists, ensuring Claude can start working with files right away.
 
 ## Logs and Troubleshooting
 
-The tfmcp server logs are available at:
+The mcedit server logs are available at:
 ```
-~/Library/Logs/Claude/mcp-server-tfmcp.log
+~/Library/Logs/Claude/mcp-server-mcedit.log
 ```
-
-Common issues and solutions:
-
-- **Claude can't connect to the server**: Make sure the path to the tfmcp executable is correct in your configuration
-- **Terraform project issues**: tfmcp automatically creates a sample Terraform project if none is found
-- **Method not found errors**: MCP protocol support includes resources/list and prompts/list methods
 
 ## Environment Variables
 
-- `TERRAFORM_DIR`: Set this to specify a custom Terraform project directory. If not set, tfmcp will use the directory provided by command line arguments, configuration files, or fall back to `~/terraform`. You can also change the project directory at runtime using the `set_terraform_directory` tool.
-- `TFMCP_LOG_LEVEL`: Set to `debug`, `info`, `warn`, or `error` to control logging verbosity.
-- `TFMCP_DEMO_MODE`: Set to `true` to enable demo mode with additional safety features.
+- `PROJECT_DIR`: Set this to specify your project directory. If not set, mcedit will use the directory provided by command line arguments, configuration files, or fall back to `~/project`. You can also change the project directory at runtime using the `change_directory` tool.
+- `MCEDIT_LOG_LEVEL`: Set to `debug`, `info`, `warn`, or `error` to control logging verbosity.
 
 ## Security Considerations
 
-When using tfmcp, please be aware of the following security considerations:
+When using mcedit, please be aware of the following security considerations:
 
-- tfmcp executes Terraform commands on your behalf, which can create, modify, or destroy infrastructure
-- In production environments, consider using appropriate IAM permissions and role boundaries
-- Review all Terraform plans before applying them, especially when generated by an AI
-- Sensitive information in your Terraform state might be accessible to the AI assistants
+- mcedit creates automatic backups before modifying files
+- Path validation prevents access to files outside the specified project directory
+- Review code changes suggested by AI before applying them
+- Sensitive information in your files might be accessible to AI assistants
 
 ## Contributing
 
@@ -155,65 +180,9 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## Roadmap
+## Attribution
 
-Here are some planned improvements and future features for tfmcp:
-
-### Completed
-- [x] **Basic Terraform Integration**  
-  Core integration with Terraform CLI for analyzing and executing operations.
-
-- [x] **MCP Server Implementation**  
-  Initial implementation of the Model Context Protocol server for AI assistants.
-
-- [x] **Automatic Project Creation**  
-  Added functionality to automatically create sample Terraform projects when needed.
-
-- [x] **Claude Desktop Integration**  
-  Support for seamless integration with Claude Desktop.
-
-- [x] **Core MCP Methods**  
-  Implementation of essential MCP methods including resources/list and prompts/list.
-
-- [x] **Error Handling Improvements**  
-  Better error handling and recovery mechanisms for robust operation.
-
-- [x] **Dynamic Project Directory Switching**  
-  Added ability to change the active Terraform project directory without restarting the service.
-
-- [x] **Crates.io Publication**  
-  Published the package to Crates.io for easy installation via Cargo.
-
-### In Progress
-- [ ] **Enhanced Terraform Analysis**  
-  Implement deeper parsing and analysis of Terraform configurations, plans, and state files.
-
-- [ ] **Multi-Environment Support**  
-  Add support for managing multiple Terraform environments, workspaces, and modules.
-
-- [ ] **Security Enhancements**  
-  Improve security features including better authentication and authorization mechanisms.
-
-- [ ] **Expanded MCP Protocol Support**  
-  Implement additional MCP methods and capabilities for richer integration with AI assistants.
-
-- [ ] **Interactive TUI**  
-  Develop a terminal-based user interface for easier local usage and debugging.
-
-- [ ] **Cost Estimation**  
-  Integrate with cloud provider pricing APIs to provide cost estimates for Terraform plans.
-
-- [ ] **Performance Optimization**  
-  Optimize resource usage and response times for large Terraform projects.
-
-- [ ] **Integration with Other AI Platforms**  
-  Extend beyond Claude to support other AI assistants and platforms.
-
-- [ ] **Comprehensive Testing Framework**  
-  Expand test coverage including integration tests with real Terraform configurations.
-
-- [ ] **Plugin System**  
-  Develop a plugin architecture to allow extensions of core functionality.
+This project is derived from [tfmcp](https://github.com/nwiizo/tfmcp), originally developed by [nwiizo](https://github.com/nwiizo), under the MIT License.
 
 ## License
 

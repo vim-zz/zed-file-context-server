@@ -1,0 +1,10 @@
+id = "file-context-server"
+name = "File Context Server"
+description = "Model Context Server for editing and analyzing files"
+version = "0.1.0"
+schema_version = 1
+authors = ["Ofer Affias <ofer@affias.me>"]
+repository = "https://github.com/vim-zz/zed-file-context-server"
+
+[context_servers.file-context-server]
+name = "File Context Server"
